@@ -1,13 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { portfolioConfig } from '../data/config';
+import emailjs from 'emailjs-com';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
+    from_name: '',
+    from_email: '',
     subject: '',
     message: ''
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState('');
+  const formRef = useRef();
+
+  // === REPLACE THESE WITH YOUR ACTUAL EMAILJS CREDENTIALS ===
+  const EMAILJS_CONFIG = {
+    serviceId: 'service_idrjjdh', // From EmailJS → Email Services
+    templateId: 'template_13cxlkg', // From EmailJS → Email Templates  
+    publicKey: 'V3t26QeabJDb_gpjl' // From EmailJS → Account → API Keys
+  };
 
   const handleChange = (e) => {
     setFormData({
@@ -18,14 +29,35 @@ const Contact = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Here you would integrate with EmailJS or Formspree
-    alert('Message sent! In a real implementation, this would send an email.');
-    setFormData({
-      name: '',
-      email: '',
-      subject: '',
-      message: ''
-    });
+    setIsSubmitting(true);
+    setSubmitStatus('');
+
+    emailjs.sendForm(
+      EMAILJS_CONFIG.serviceId,
+      EMAILJS_CONFIG.templateId,
+      formRef.current,
+      EMAILJS_CONFIG.publicKey
+    )
+      .then((result) => {
+        console.log('Message sent successfully!', result.text);
+        setSubmitStatus('success');
+        // Clear form
+        setFormData({
+          from_name: '',
+          from_email: '',
+          subject: '',
+          message: ''
+        });
+      })
+      .catch((error) => {
+        console.error('Error sending message:', error);
+        setSubmitStatus('error');
+      })
+      .finally(() => {
+        setIsSubmitting(false);
+        // Clear status after 5 seconds
+        setTimeout(() => setSubmitStatus(''), 5000);
+      });
   };
 
   return (
@@ -112,36 +144,58 @@ const Contact = () => {
           <div className="col-lg-8">
             <div className="card border-0 shadow-lg">
               <div className="card-body p-4">
-                <form onSubmit={handleSubmit}>
+                {/* Success Message */}
+                {submitStatus === 'success' && (
+                  <div className="alert alert-success alert-dismissible fade show" role="alert">
+                    <i className="fas fa-check-circle me-2"></i>
+                    <strong>Success!</strong> Your message has been sent. I'll get back to you soon!
+                    <button type="button" className="btn-close" onClick={() => setSubmitStatus('')}></button>
+                  </div>
+                )}
+                
+                {/* Error Message */}
+                {submitStatus === 'error' && (
+                  <div className="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i className="fas fa-exclamation-triangle me-2"></i>
+                    <strong>Error!</strong> Failed to send message. Please email me directly at {portfolioConfig.personalInfo.email}
+                    <button type="button" className="btn-close" onClick={() => setSubmitStatus('')}></button>
+                  </div>
+                )}
+
+                <form ref={formRef} onSubmit={handleSubmit}>
                   <div className="row">
                     <div className="col-md-6 mb-3">
-                      <label htmlFor="name" className="form-label text-dark">Your Name</label>
+                      <label htmlFor="from_name" className="form-label text-dark fw-semibold">Your Name *</label>
                       <input 
                         type="text" 
                         className="form-control" 
-                        id="name" 
-                        name="name"
-                        value={formData.name}
+                        id="from_name" 
+                        name="from_name"
+                        value={formData.from_name}
                         onChange={handleChange}
                         required
+                        disabled={isSubmitting}
+                        placeholder="Enter your full name"
                       />
                     </div>
                     <div className="col-md-6 mb-3">
-                      <label htmlFor="email" className="form-label text-dark">Your Email</label>
+                      <label htmlFor="from_email" className="form-label text-dark fw-semibold">Your Email *</label>
                       <input 
                         type="email" 
                         className="form-control" 
-                        id="email" 
-                        name="email"
-                        value={formData.email}
+                        id="from_email" 
+                        name="from_email"
+                        value={formData.from_email}
                         onChange={handleChange}
                         required
+                        disabled={isSubmitting}
+                        placeholder="Enter your email address"
                       />
                     </div>
                   </div>
                   
                   <div className="mb-3">
-                    <label htmlFor="subject" className="form-label text-dark">Subject</label>
+                    <label htmlFor="subject" className="form-label text-dark fw-semibold">Subject *</label>
                     <input 
                       type="text" 
                       className="form-control" 
@@ -150,11 +204,13 @@ const Contact = () => {
                       value={formData.subject}
                       onChange={handleChange}
                       required
+                      disabled={isSubmitting}
+                      placeholder="What is this regarding?"
                     />
                   </div>
                   
-                  <div className="mb-3">
-                    <label htmlFor="message" className="form-label text-dark">Message</label>
+                  <div className="mb-4">
+                    <label htmlFor="message" className="form-label text-dark fw-semibold">Message *</label>
                     <textarea 
                       className="form-control" 
                       id="message" 
@@ -163,11 +219,27 @@ const Contact = () => {
                       value={formData.message}
                       onChange={handleChange}
                       required
+                      disabled={isSubmitting}
+                      placeholder="Tell me about your project or opportunity..."
                     ></textarea>
                   </div>
                   
-                  <button type="submit" className="btn btn-custom">
-                    Send Message
+                  <button 
+                    type="submit" 
+                    className="btn btn-custom btn-lg"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <span className="spinner-border spinner-border-sm me-2" role="status"></span>
+                        Sending Message...
+                      </>
+                    ) : (
+                      <>
+                        <i className="fas fa-paper-plane me-2"></i>
+                        Send Message
+                      </>
+                    )}
                   </button>
                 </form>
               </div>
