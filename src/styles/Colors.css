@@ -1,0 +1,91 @@
+:root {
+  --primary-color: #6C63FF;
+  --secondary-color: #4A44C6;
+  --accent-color: #FF6584;
+  --dark-color: #2A2D3E;
+  --light-color: #F7F9FC;
+  --success-color: #2EC4B6;
+  --warning-color: #FF9F1C;
+  --text-dark: #333333;
+  --text-light: #6C757D;
+  --gradient-primary: linear-gradient(135deg, #6C63FF 0%, #4A44C6 100%);
+  --gradient-accent: linear-gradient(135deg, #FF6584 0%, #FF3366 100%);
+  --gradient-dark: linear-gradient(135deg, #2A2D3E 0%, #1A1D2E 100%);
+}
+
+/* Color classes */
+.bg-primary-custom {
+  background-color: var(--primary-color) !important;
+}
+
+.bg-secondary-custom {
+  background-color: var(--secondary-color) !important;
+}
+
+.bg-dark-custom {
+  background-color: var(--dark-color) !important;
+}
+
+.text-primary-custom {
+  color: var(--primary-color) !important;
+}
+
+.text-accent {
+  color: var(--accent-color) !important;
+}
+
+/* Gradient backgrounds */
+.gradient-primary {
+  background: var(--gradient-primary);
+}
+
+.gradient-accent {
+  background: var(--gradient-accent);
+}
+
+.gradient-dark {
+  background: var(--gradient-dark);
+}
+
+/* Card hover effects */
+.card-hover {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Button styles */
+.btn-custom {
+  background: var(--gradient-primary);
+  border: none;
+  color: white;
+  padding: 10px 25px;
+  border-radius: 30px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-custom:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(108, 99, 255, 0.4);
+  color: white;
+}
+
+.btn-outline-custom {
+  border: 2px solid var(--primary-color);
+  color: var(--primary-color);
+  background: transparent;
+  padding: 10px 25px;
+  border-radius: 30px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-custom:hover {
+  background: var(--primary-color);
+  color: white;
+  transform: translateY(-2px);
+}
