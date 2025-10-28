@@ -18,9 +18,9 @@ export const portfolioConfig = {
       title: "Workforce HR Management System",
       description: ".NET + React full-stack system with employee data management, attendance, and performance tracking.",
       technologies: [".NET Core", "React", "SQL Server", "RESTful APIs"],
-      githubUrl: "#",
+      githubUrl: "https://github.com/Software-Project-L2S2",
       liveUrl: "#",
-      image: "/images/project1.jpg" // Add your images to public/images
+      image: "/HRmangmnet.png" // Add your images to public/images
     },
     {
       id: 2,
@@ -29,25 +29,25 @@ export const portfolioConfig = {
       technologies: ["IoT", "Microcontroller", "Sensors"],
       githubUrl: "#",
       liveUrl: "#",
-      image: "/images/project2.jpg"
+      image: "/soilmisture.jpg"
     },
     {
       id: 3,
       title: "Web Map Application",
       description: "Interactive map visualization using HTML, CSS, JavaScript, and MongoDB.",
       technologies: ["HTML", "CSS", "JavaScript", "MongoDB"],
-      githubUrl: "#",
+      githubUrl: "https://github.com/Jayawardhana22/web-map",
       liveUrl: "#",
-      image: "/images/project3.jpg"
+      image: "/webmap.png"
     },
     {
       id: 4,
       title: "Amazon Clone",
       description: "Amazon UI clone with focus on layout precision and responsive frontend design.",
       technologies: ["React", "CSS", "Responsive Design"],
-      githubUrl: "#",
+      githubUrl: "https://github.com/Jayawardhana22/amzonclone",
       liveUrl: "#",
-      image: "/images/project4.jpg"
+      image: "/amzonclone.png"
     }
   ],
   
